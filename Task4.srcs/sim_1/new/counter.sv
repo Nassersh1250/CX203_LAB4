@@ -3,7 +3,7 @@
 module counter_tb;
 
 logic [3:0] D2;
-logic [3:0] Q2;
+logic [3:0] Q2,Q1;
 logic R,clk,load,sub;
 
 //Dregister dut(
@@ -19,9 +19,18 @@ counter dut2(
     .load(load),
     .sub(sub),
     .clk(clk),
-    .Q(Q2)
+    .Q(Q1)
 );
 
+
+nbitcounter dut1(
+    .D(D2),
+    .R(R),
+    .load(load),
+    .sub(sub),
+    .clk(clk),
+    .Q(Q2)
+);
 initial begin 
 clk = 0;
 

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module Dreg_top(
+module multiplier_sevseg(
 
   input wire [15:0] SW,
   input wire CLK100MHZ,    // using the same name as pin names
@@ -10,13 +10,16 @@ module Dreg_top(
   input wire BTNC
 );
 wire [3:0]D1; 
-wire [3:0]D2;
+wire [3:0] sum;
+wire [3:0] x;
+//wire [3:0]D2;
 wire [3:0]Q1; 
-wire [3:0]Q2;
+//wire [3:0]Q2;
 wire R,clk,sub,load;
 assign D1 = SW[3:0];
-assign sub = SW[4];
-assign load = SW[5];
+assign x = SW[7:4];
+assign sub = SW[8];
+assign load = SW[9];
 //assign D2 = SW[7:4];
 assign R = CPU_RESETN;
 assign clk = BTNC;
@@ -25,9 +28,11 @@ nbitcounter dut(
 .D(D1),
 .R(R),
 .sub(sub),
+.x(x),
 .load(load),
 .clk(clk),
-.Q(Q1)
+.Q(Q1),
+.sum(sum)
 );
 
 //Dregisterbeha dut2(
@@ -40,7 +45,7 @@ nbitcounter dut(
 
 
 sev_seg_top ssdt(
-    .t({D1,D2, Q1, Q2}),
+    .t({sum, Q1, D1, x}),
     .CLK100MHZ(CLK100MHZ),
     .CPU_RESETN(CPU_RESETN),
     .CA(CA),
